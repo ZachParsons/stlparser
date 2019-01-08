@@ -12,14 +12,20 @@
 # 5. calculate bounding volume
 # 6. return report
 
-
 defmodule StlParser do
   @moduledoc """
   Documentation for StlParser.
   """
 
-  def display_analysis(count, area, volume) do
-    IO.puts("Triangle count: #{count} \nArea: #{area}\nVolume: #{volume}")
+  def display_analysis(count, area, vol_box) do
+    lx = Enum.at(vol_box, 0) |> Enum.at(0)
+    ly = Enum.at(vol_box, 0) |> Enum.at(1)
+    lz = Enum.at(vol_box, 0) |> Enum.at(2)
+    hx = Enum.at(vol_box, 1) |> Enum.at(0)
+    hy = Enum.at(vol_box, 1) |> Enum.at(1)
+    hz = Enum.at(vol_box, 1) |> Enum.at(2)
+
+    IO.puts("Number of Triangles: #{count} \nSurface Area: #{area}\nBounding Box: {x: #{lx}, y: #{ly}, z: #{lz}}, {x: #{hx}, y: #{hy}, x: #{hz}}")
   end
 
   def runner do
@@ -33,9 +39,12 @@ defmodule StlParser do
         
     t_count = get_count(triangle_map_1l)
     t_area = get_area(triangle_map_1l)
-    t_vol = get_volume(triangle_map_1l)
+    # [[lx, ly, lz], [hx, hy, hz]] = get_volume(triangle_map_1l)
+    vol_box = get_volume(triangle_map_1l)
+    |> IO.inspect(label: "36")
 
-    display_analysis(t_count, t_area, t_vol)
+
+    display_analysis(t_count, t_area, vol_box)
   end
 
   def stl_file, do: "moon.stl"
@@ -114,11 +123,12 @@ defmodule StlParser do
     {h_y, l_y} = get_diff(yvals_l)
     {h_z, l_z} = get_diff(zvals_l)
 
-    x_d = h_x - l_x
-    y_d = h_y - l_y
-    z_d = h_z - l_z
+    # x_d = h_x - l_x
+    # y_d = h_y - l_y
+    # z_d = h_z - l_z
+    # total_volume = x_d * y_d * z_d
 
-    x_d * y_d * z_d
+    [[l_x, l_y, l_z], [h_x, h_y, h_z]]
   end
 
   def get_dimension_values(list, n) do
