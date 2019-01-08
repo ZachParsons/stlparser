@@ -30,14 +30,12 @@ defmodule StlParser do
       |> trim_list()
       |> chunk_list()
       |> get_vertices()
-    
-    
+        
     t_count = get_count(triangle_map_1l)
-    display_analysis(t_count, nil, nil)
+    t_area = get_area(triangle_map_1l)
+    t_vol = get_volume(triangle_map_1l)
 
-    get_area(triangle_map_1l)
-
-    # triangle_map_1l
+    display_analysis(t_count, t_area, t_vol)
   end
 
   def stl_file, do: "moon.stl"
@@ -84,31 +82,60 @@ defmodule StlParser do
 
   def get_area(maps_1l) do
     t_areas = 
-    for m <- maps_1l do
-      ax = m.vertex_a |> Enum.at(0)
-      ay = m.vertex_a |> Enum.at(1)
-      az = m.vertex_a |> Enum.at(2)
+      for m <- maps_1l do
+        ax = m.vertex_a |> Enum.at(0)
+        ay = m.vertex_a |> Enum.at(1)
+        az = m.vertex_a |> Enum.at(2)
 
-      bx = m.vertex_b |> Enum.at(0)
-      by = m.vertex_b |> Enum.at(1)
-      bz = m.vertex_b |> Enum.at(2)
+        bx = m.vertex_b |> Enum.at(0)
+        by = m.vertex_b |> Enum.at(1)
+        bz = m.vertex_b |> Enum.at(2)
 
-      cx = m.vertex_c |> Enum.at(0)
-      cy = m.vertex_c |> Enum.at(1)
-      cz = m.vertex_c |> Enum.at(2)
-      
-      ab = :math.sqrt(:math.pow(bx - ax, 2) + :math.pow(by - ay, 2) + :math.pow(bz - az, 2))
-      
-      ac = :math.sqrt(:math.pow(cx - ax, 2) + :math.pow(cy - ay, 2) + :math.pow(cz - az, 2))
+        cx = m.vertex_c |> Enum.at(0)
+        cy = m.vertex_c |> Enum.at(1)
+        cz = m.vertex_c |> Enum.at(2)
+        
+        ab = :math.sqrt(:math.pow(bx - ax, 2) + :math.pow(by - ay, 2) + :math.pow(bz - az, 2))
+        
+        ac = :math.sqrt(:math.pow(cx - ax, 2) + :math.pow(cy - ay, 2) + :math.pow(cz - az, 2))
 
-      ab * ac / 2
-    end
+        ab * ac / 2
+      end
 
     Enum.reduce(t_areas, 0, fn(a, acc)-> a + acc end)
   end
 
   def get_volume(maps_1l) do
-    
+    xvals_l = 
+      for m <- maps_1l,
+        v <- m do
+          Enum.at(elem(v, 1), 0)
+      end
+
+    yvals_l = 
+      for m <- maps_1l,
+        v <- m do
+          Enum.at(elem(v, 1), 1)
+      end
+
+    zvals_l = 
+      for m <- maps_1l,
+        v <- m do
+          Enum.at(elem(v, 1), 2)
+      end
+
+    h_x = Enum.max(xvals_l)
+    l_x = Enum.min(xvals_l)
+    h_y = Enum.max(yvals_l)
+    l_y = Enum.min(yvals_l)
+    h_z = Enum.max(zvals_l)
+    l_z = Enum.min(zvals_l)
+
+    x_d = h_x - l_x
+    y_d = h_y - l_y
+    z_d = h_z - l_z
+
+    x_d * y_d * z_d  
   end
 
 end
