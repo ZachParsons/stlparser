@@ -106,36 +106,30 @@ defmodule StlParser do
   end
 
   def get_volume(maps_1l) do
-    xvals_l = 
-      for m <- maps_1l,
-        v <- m do
-          Enum.at(elem(v, 1), 0)
-      end
+    xvals_l = get_dimension_values(maps_1l, 0)
+    yvals_l = get_dimension_values(maps_1l, 1)
+    zvals_l = get_dimension_values(maps_1l, 2)
 
-    yvals_l = 
-      for m <- maps_1l,
-        v <- m do
-          Enum.at(elem(v, 1), 1)
-      end
-
-    zvals_l = 
-      for m <- maps_1l,
-        v <- m do
-          Enum.at(elem(v, 1), 2)
-      end
-
-    h_x = Enum.max(xvals_l)
-    l_x = Enum.min(xvals_l)
-    h_y = Enum.max(yvals_l)
-    l_y = Enum.min(yvals_l)
-    h_z = Enum.max(zvals_l)
-    l_z = Enum.min(zvals_l)
+    {h_x, l_x} = get_diff(xvals_l)
+    {h_y, l_y} = get_diff(yvals_l)
+    {h_z, l_z} = get_diff(zvals_l)
 
     x_d = h_x - l_x
     y_d = h_y - l_y
     z_d = h_z - l_z
 
-    x_d * y_d * z_d  
+    x_d * y_d * z_d
+  end
+
+  def get_dimension_values(list, n) do
+    for m <- list,
+      v <- m do
+        Enum.at(elem(v, 1), n)
+    end
+  end
+
+  def get_diff(list) do
+    {Enum.max(list), Enum.min(list)}
   end
 
 end
