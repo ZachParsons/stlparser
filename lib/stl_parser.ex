@@ -39,10 +39,7 @@ defmodule StlParser do
         
     t_count = get_count(triangle_map_1l)
     t_area = get_area(triangle_map_1l)
-    # [[lx, ly, lz], [hx, hy, hz]] = get_volume(triangle_map_1l)
     vol_box = get_volume(triangle_map_1l)
-    |> IO.inspect(label: "36")
-
 
     display_analysis(t_count, t_area, vol_box)
   end
