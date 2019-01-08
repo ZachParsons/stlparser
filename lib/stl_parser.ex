@@ -83,9 +83,28 @@ defmodule StlParser do
   end
 
   def get_area(maps_1l) do
+    t_areas = 
     for m <- maps_1l do
-      m
+      ax = m.vertex_a |> Enum.at(0)
+      ay = m.vertex_a |> Enum.at(1)
+      az = m.vertex_a |> Enum.at(2)
+
+      bx = m.vertex_b |> Enum.at(0)
+      by = m.vertex_b |> Enum.at(1)
+      bz = m.vertex_b |> Enum.at(2)
+
+      cx = m.vertex_c |> Enum.at(0)
+      cy = m.vertex_c |> Enum.at(1)
+      cz = m.vertex_c |> Enum.at(2)
+      
+      ab = :math.sqrt(:math.pow(bx - ax, 2) + :math.pow(by - ay, 2) + :math.pow(bz - az, 2))
+      
+      ac = :math.sqrt(:math.pow(cx - ax, 2) + :math.pow(cy - ay, 2) + :math.pow(cz - az, 2))
+
+      ab * ac / 2
     end
+
+    Enum.reduce(t_areas, 0, fn(a, acc)-> a + acc end)
   end
 
   def get_volume(maps_1l) do
