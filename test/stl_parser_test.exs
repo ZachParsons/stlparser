@@ -24,12 +24,12 @@ defmodule STLParserTest do
 
   def vertices_maps_1l do
    [
-      %{
+      %STLParser{
         vertex_a: [0.516641, 0.2, 2.94889],
         vertex_b: [0.503588, 0.35, 2.90018],
         vertex_c: [0.128412, 0.2, 3.0]
       },
-      %{
+      %STLParser{
         vertex_a: [0.128412, 0.2, 3.0],
         vertex_b: [0.503588, 0.35, 2.90018],
         vertex_c: [0.128412, 0.35, 2.94957]
@@ -63,7 +63,6 @@ defmodule STLParserTest do
   end
 
   test "get_vertices/1" do
-
     assert STLParser.get_vertices(line_strings_2l) == vertices_maps_1l
   end
 
