@@ -17,22 +17,15 @@ defmodule StlParser do
   Documentation for StlParser.
   """
 
+  defstruct [:vertex_a, :vertex_b, :vertex_c]
+
   def display_analysis(count, area, vol_box) do
-    # TODO: Define & invoke a function to dry this up.
-    lx = Enum.at(vol_box, 0) |> Enum.at(0)
-    ly = Enum.at(vol_box, 0) |> Enum.at(1)
-    lz = Enum.at(vol_box, 0) |> Enum.at(2)
-    hx = Enum.at(vol_box, 1) |> Enum.at(0)
-    hy = Enum.at(vol_box, 1) |> Enum.at(1)
-    hz = Enum.at(vol_box, 1) |> Enum.at(2)
+    [[lx, ly, lz], [hx, hy, hz]] = vol_box
 
     IO.puts("Number of Triangles: #{count} \nSurface Area: #{area}\nBounding Box: {x: #{lx}, y: #{ly}, z: #{lz}}, {x: #{hx}, y: #{hy}, x: #{hz}}")
   end
 
-  def runner do
-
-    
-    
+  def runner do    
     bitstring = read_stl(stl_file())
 
     triangle_map_1l = 
@@ -95,21 +88,11 @@ defmodule StlParser do
   def get_area(maps_1l) do
     t_areas = 
       for m <- maps_1l do
-      # TODO: Define & invoke a function to dry this up.
-        ax = m.vertex_a |> Enum.at(0)
-        ay = m.vertex_a |> Enum.at(1)
-        az = m.vertex_a |> Enum.at(2)
-
-        bx = m.vertex_b |> Enum.at(0)
-        by = m.vertex_b |> Enum.at(1)
-        bz = m.vertex_b |> Enum.at(2)
-
-        cx = m.vertex_c |> Enum.at(0)
-        cy = m.vertex_c |> Enum.at(1)
-        cz = m.vertex_c |> Enum.at(2)
+        [ax, ay, az] = m.vertex_a
+        [bx, by, bz] = m.vertex_b
+        [cx, cy, cz] = m.vertex_c
         
-        ab = :math.sqrt(:math.pow(bx - ax, 2) + :math.pow(by - ay, 2) + :math.pow(bz - az, 2))
-        
+        ab = :math.sqrt(:math.pow(bx - ax, 2) + :math.pow(by - ay, 2) + :math.pow(bz - az, 2))        
         ac = :math.sqrt(:math.pow(cx - ax, 2) + :math.pow(cy - ay, 2) + :math.pow(cz - az, 2))
 
         ab * ac / 2
