@@ -13,5 +13,5 @@ Choosing a map with labeled keys to collect the parsed data allowed easier enume
 #### Roadmap
 * Add a CLI prompt to pass in a file path.
 
-* Performance improvements: to handle an stl file model with millions of triangles, I would try using chunking the source data & using separate processes to handle the chunks concurrently, possibly using one of the built-in patterns like GenServer.
+* Performance improvements: to handle an stl file model with millions of triangles, I would try chunking the source data & using separate processes to handle the chunks concurrently, possibly using one of the built-in patterns like GenServer.
 
