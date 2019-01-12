@@ -18,6 +18,7 @@ defmodule StlParser do
   """
 
   def display_analysis(count, area, vol_box) do
+    # TODO: Define & invoke a function to dry this up.
     lx = Enum.at(vol_box, 0) |> Enum.at(0)
     ly = Enum.at(vol_box, 0) |> Enum.at(1)
     lz = Enum.at(vol_box, 0) |> Enum.at(2)
@@ -32,7 +33,7 @@ defmodule StlParser do
     bitstring = read_stl(stl_file())
 
     triangle_map_1l = 
-      String.split(bitstring, ~r/(\r\n|\r|\n)/)
+      split_string(bitstring)
       |> trim_list()
       |> chunk_list()
       |> get_vertices()
@@ -50,6 +51,8 @@ defmodule StlParser do
     {:ok, bitstring} = File.read(file)
     bitstring
   end
+
+  def split_string(s), do: String.split(s, ~r/(\r\n|\r|\n)/)
 
   def trim_list(list) do
     Enum.slice(list, 1..-3)
@@ -89,6 +92,7 @@ defmodule StlParser do
   def get_area(maps_1l) do
     t_areas = 
       for m <- maps_1l do
+      # TODO: Define & invoke a function to dry this up.
         ax = m.vertex_a |> Enum.at(0)
         ay = m.vertex_a |> Enum.at(1)
         az = m.vertex_a |> Enum.at(2)
