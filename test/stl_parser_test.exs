@@ -22,7 +22,6 @@ defmodule StlParserTest do
     ]
   end
 
-
   def vertices_maps_1l do
    [
       %{
@@ -95,7 +94,6 @@ defmodule StlParserTest do
 
   test "get_volume/1" do
     bb_vals = [[0.128412, 0.2, 2.90018], [0.516641, 0.35, 3.0]]
-
     assert StlParser.get_volume(vertices_maps_1l) == bb_vals
   end 
 

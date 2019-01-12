@@ -30,6 +30,9 @@ defmodule StlParser do
   end
 
   def runner do
+
+    
+    
     bitstring = read_stl(stl_file())
 
     triangle_map_1l = 

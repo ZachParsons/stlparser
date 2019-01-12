@@ -1,21 +1,17 @@
 # StlParser
 
-**TODO: Add description**
 
-## Installation
+#### Instructions
+1. From the CLI in the cloned repo, start the interactive shell: iex -S mix
+2. Call the runner: StlParser.runner
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `stl_parser` to your list of dependencies in `mix.exs`:
 
-```elixir
-def deps do
-  [
-    {:stl_parser, "~> 0.1.0"}
-  ]
-end
-```
+#### Design
+Choosing a map with labeled keys as a to collect the parsed data allowed easier enumeration through it for the later arithemetic calculations.
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/stl_parser](https://hexdocs.pm/stl_parser).
+
+#### Roadmap
+* Add a CLI prompt to pass in a file path.
+
+* Performance improvements: to handle an stl file model with millions of triangles, I would try using chunking the source data & using separate processes to handle the chunks concurrently, possibly using one of the built-in patterns like GenServer.
 
