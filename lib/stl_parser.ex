@@ -15,8 +15,8 @@
 defmodule STLParser do
   import STLParser.Triangle
 
-  def runner do    
-    bitstring = read_stl(stl_file())
+    def run(path) do    
+    bitstring = read_stl(path)
 
     triangle_map_1l = 
       split_string(bitstring)
@@ -36,8 +36,6 @@ defmodule STLParser do
 
     IO.puts("Number of Triangles: #{count} \nSurface Area: #{area}\nBounding Box: {x: #{lx}, y: #{ly}, z: #{lz}}, {x: #{hx}, y: #{hy}, x: #{hz}}")
   end
-
-  def stl_file, do: "moon.stl"
 
   def read_stl(file) do
     {:ok, bitstring} = File.read(file)
