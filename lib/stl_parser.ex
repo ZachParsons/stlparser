@@ -12,19 +12,21 @@
 # 5. calculate bounding volume
 # 6. return report
 
-defmodule STLParser do
+defmodule STLParser.Triangle do
   @moduledoc """
-  Documentation for STLParser.
+  Documentation for STLParser
   """
 
   defstruct [:vertex_a, :vertex_b, :vertex_c]
 
+  # TODO: move to STLParser module
   def display_analysis(count, area, vol_box) do
     [[lx, ly, lz], [hx, hy, hz]] = vol_box
 
     IO.puts("Number of Triangles: #{count} \nSurface Area: #{area}\nBounding Box: {x: #{lx}, y: #{ly}, z: #{lz}}, {x: #{hx}, y: #{hy}, x: #{hz}}")
   end
 
+  # TODO: move to STLParser module
   def runner do    
     bitstring = read_stl(stl_file())
 
@@ -41,8 +43,10 @@ defmodule STLParser do
     display_analysis(t_count, t_area, vol_box)
   end
 
+  # TODO: move to STLParser module
   def stl_file, do: "moon.stl"
 
+  # TODO: move to STLParser module
   def read_stl(file) do
     {:ok, bitstring} = File.read(file)
     bitstring
@@ -60,7 +64,7 @@ defmodule STLParser do
 
   def get_vertices(chunked_2l) do
     for l <- chunked_2l do
-      %STLParser{
+      %STLParser.Triangle{
         vertex_a: split_coords(Enum.at(l, 2)), 
         vertex_b: split_coords(Enum.at(l, 3)), 
         vertex_c: split_coords(Enum.at(l, 4))
@@ -70,7 +74,6 @@ defmodule STLParser do
       #   vertex_c: split_coords(Enum.at(l, 4))
       # }
     end
-    |> IO.inspect(label: "#{__MODULE__}:#{__ENV__.line} #{DateTime.utc_now}", limit: :infinity)
   end
 
   def split_coords(string) do
