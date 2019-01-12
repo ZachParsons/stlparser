@@ -1,4 +1,4 @@
-defmodule StlParser.MixProject do
+defmodule STLParser.MixProject do
   use Mix.Project
 
   def project do

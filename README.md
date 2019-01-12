@@ -1,13 +1,13 @@
-# StlParser
+# STLParser
 
 
 #### Instructions
 1. From the CLI in the cloned repo, start the interactive shell: iex -S mix
-2. Call the runner: StlParser.runner
+2. Call the runner: STLParser.runner
 
 
 #### Design
-Choosing a map with labeled keys to collect the parsed data allowed easier enumeration through it for the later arithemetic calculations.
+Using a struct for its standardized keys to collect the parsed data gives meaning to the data and allows programmatic access that I used in later enumeration and arithmetic calculations.
 
 
 #### Roadmap

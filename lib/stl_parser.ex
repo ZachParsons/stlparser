@@ -12,9 +12,9 @@
 # 5. calculate bounding volume
 # 6. return report
 
-defmodule StlParser do
+defmodule STLParser do
   @moduledoc """
-  Documentation for StlParser.
+  Documentation for STLParser.
   """
 
   defstruct [:vertex_a, :vertex_b, :vertex_c]
@@ -60,11 +60,17 @@ defmodule StlParser do
 
   def get_vertices(chunked_2l) do
     for l <- chunked_2l do
-      %{vertex_a: split_coords(Enum.at(l, 2)), 
+      %STLParser{
+        vertex_a: split_coords(Enum.at(l, 2)), 
         vertex_b: split_coords(Enum.at(l, 3)), 
         vertex_c: split_coords(Enum.at(l, 4))
       }
+      # %{vertex_a: split_coords(Enum.at(l, 2)), 
+      #   vertex_b: split_coords(Enum.at(l, 3)), 
+      #   vertex_c: split_coords(Enum.at(l, 4))
+      # }
     end
+    |> IO.inspect(label: "#{__MODULE__}:#{__ENV__.line} #{DateTime.utc_now}", limit: :infinity)
   end
 
   def split_coords(string) do
@@ -97,7 +103,7 @@ defmodule StlParser do
 
         ab * ac / 2
       end
-
+  
     Enum.reduce(t_areas, 0, fn(a, acc)-> a + acc end)
   end
 
@@ -119,10 +125,14 @@ defmodule StlParser do
   end
 
   def get_dimension_values(list, n) do
-    for m <- list,
-      v <- m do
-        Enum.at(elem(v, 1), n)
+    for m <- list do
+      a = m.vertex_a |> Enum.at(n)
+      b = m.vertex_b |> Enum.at(n)
+      c = m.vertex_c |> Enum.at(n)
+
+      [a, b, c]
     end
+    |> List.flatten
   end
 
   def get_diff(list) do
