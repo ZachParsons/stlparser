@@ -3,7 +3,7 @@
 
 #### Instructions
 1. From the CLI in the cloned repo, start the interactive shell: iex -S mix
-2. Call tbe run function & pass it a file path, example file included in repo: STLParser.run 'Moon.stl'
+2. Call the run function & pass it a file path, example file included in repo: STLParser.run 'Moon.stl'
 
 
 #### Design
