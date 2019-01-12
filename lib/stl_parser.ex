@@ -2,7 +2,7 @@
 # * module design
 # * benchmark functions
 # * with, tagged tuples, multiple function clauses, type & value matching 
-# * stream, process, agent, task, genserver
+# * Process, Agent, Task, GenServer
 # * protocols, behaviors
 
 # 1. read file

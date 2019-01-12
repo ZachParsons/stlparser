@@ -19,8 +19,8 @@ defmodule STLParser.Triangle do
   def get_vertices(chunked_2l) do
     for l <- chunked_2l do
       %Triangle{
-        vertex_a: split_coords(Enum.at(l, 2)), 
-        vertex_b: split_coords(Enum.at(l, 3)), 
+        vertex_a: split_coords(Enum.at(l, 2)),
+        vertex_b: split_coords(Enum.at(l, 3)),
         vertex_c: split_coords(Enum.at(l, 4))
       }
     end

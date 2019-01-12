@@ -1,6 +1,5 @@
 defmodule STLParserTest do
   use ExUnit.Case
-  import STLParser
   import STLParser.Triangle
   doctest STLParser.Triangle
 
@@ -65,14 +64,14 @@ defmodule STLParserTest do
   end
 
   test "get_vertices/1" do
-    assert get_vertices(line_strings_2l) == vertices_maps_1l
+    assert get_vertices(line_strings_2l()) == vertices_maps_1l()
   end
 
   test "split_coords/1" do
     s = "    vertex 0.128412 0.35 2.94957"
-    l = [0.128412, 0.35, 2.94957]
+    floats_1l = [0.128412, 0.35, 2.94957]
 
-    split_coords(s) == l
+    assert split_coords(s) == floats_1l
   end
 
   test "convert_to_float/1" do
@@ -90,18 +89,18 @@ defmodule STLParserTest do
 
   test "get_area/1" do
     f = 0.06391543951501288
-    assert get_area(vertices_maps_1l) == f
+    assert get_area(vertices_maps_1l()) == f
   end
 
   test "get_volume/1" do
-    bb_vals = [[0.128412, 0.2, 2.90018], [0.516641, 0.35, 3.0]]
-    assert get_volume(vertices_maps_1l) == bb_vals
+    bb_floats_2l = [[0.128412, 0.2, 2.90018], [0.516641, 0.35, 3.0]]
+    assert get_volume(vertices_maps_1l()) == bb_floats_2l
   end 
 
   test "get_dimension_values/2"  do
     floats_1l = [2.94889, 2.90018, 3.0, 3.0, 2.90018, 2.94957]
 
-    assert get_dimension_values(vertices_maps_1l, 2) == floats_1l
+    assert get_dimension_values(vertices_maps_1l(), 2) == floats_1l
   end
 
   test "get_diff/1" do
