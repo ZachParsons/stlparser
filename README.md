@@ -7,7 +7,7 @@
 
 
 #### Design
-Choosing a map with labeled keys as a to collect the parsed data allowed easier enumeration through it for the later arithemetic calculations.
+Choosing a map with labeled keys to collect the parsed data allowed easier enumeration through it for the later arithemetic calculations.
 
 
 #### Roadmap
