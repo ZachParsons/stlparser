@@ -1,5 +1,6 @@
 defmodule STLParserTest do
   use ExUnit.Case
+  import STLParser
   import STLParser.Triangle
   doctest STLParser.Triangle
 
