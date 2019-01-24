@@ -44,27 +44,27 @@ defmodule STLParserTest do
   #   assert STLParser.stl_file()
   # end
 
-  test "split_string/1" do
+  test "split_by_line/1" do
     s = "a \n b \r c"
 
-    assert split_string(s) == ["a ", " b ", " c"]
+    assert split_by_line(s) == ["a ", " b ", " c"]
   end
 
   test "take_triangle_data/1" do 
     assert take_triangle_data(["solid Moon", "facet normal -0.130526 0 0.991445", ""]) == ["facet normal -0.130526 0 0.991445"]
   end
 
-  test "chunk_list/1" do
+  test "chunk_lines_by_triangle/1" do
     strings_1l = ["a", "b", "c", "d", "e", "f", "g", 
                   "h", "i", "j", "k", "l", "m", "n"]
     strings_2l = [["a", "b", "c", "d", "e", "f", "g"], 
                   ["h", "i", "j", "k", "l", "m", "n"]]
 
-    assert chunk_list(strings_1l) == strings_2l
+    assert chunk_lines_by_triangle(strings_1l) == strings_2l
   end
 
-  test "get_vertices/1" do
-    assert get_vertices(line_strings_2l()) == vertices_maps_1l()
+  test "get_triangle_vertices/1" do
+    assert get_triangle_vertices(line_strings_2l()) == vertices_maps_1l()
   end
 
   test "split_coords/1" do

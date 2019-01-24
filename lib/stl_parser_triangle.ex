@@ -8,8 +8,8 @@ defmodule STLParser.Triangle do
   
   @stl_keys ["facet", "outer loop", "vertex", "endloop", "endfacet"]
   
-  @spec split_string(String.t()) :: list()
-  def split_string(s), do: String.split(s, ~r/(\r\n|\r|\n)/)
+  @spec split_by_line(binary()) :: list()
+  def split_by_line(s), do: String.split(s, ~r/(\r\n|\r|\n)/)
 
 
   @spec take_triangle_data(list()) :: list()
@@ -19,13 +19,13 @@ defmodule STLParser.Triangle do
     end)
   end
 
-  @spec chunk_list(list()) :: list()
-  def chunk_list(list) do
+  @spec chunk_lines_by_triangle(list()) :: list()
+  def chunk_lines_by_triangle(list) do
     Enum.chunk_every(list, 7)
   end 
 
-  @spec get_vertices(list()) :: list()
-  def get_vertices(chunked_2l) do
+  @spec get_triangle_vertices(list()) :: list()
+  def get_triangle_vertices(chunked_2l) do
     for l <- chunked_2l do
       %Triangle{
         vertex_a: split_coords(Enum.at(l, 2)),
@@ -45,6 +45,7 @@ defmodule STLParser.Triangle do
 
   @spec convert_coords_to_float(binary()) :: float()
   def convert_coords_to_float(string) do
+    # TODO: replace with multi-clause fn.
     cond do
       String.contains?(string, ".") -> String.to_float(string)
       true -> String.to_float(string <> ".0")
@@ -58,6 +59,7 @@ defmodule STLParser.Triangle do
 
   @spec get_triangles_area(list()) :: float()
   def get_triangles_area(structs_1l) do
+    # TODO: replace for with multi-clause fn.
     t_areas = 
       for m <- structs_1l do
         [ax, ay, az] = m.vertex_a
@@ -94,6 +96,7 @@ defmodule STLParser.Triangle do
 
   @spec get_dimension_values(list(), integer()) :: list()
   def get_dimension_values(list, n) do
+    # TODO: Replace for with multi-clause fn.
     for m <- list do
       a = m.vertex_a |> Enum.at(n)
       b = m.vertex_b |> Enum.at(n)

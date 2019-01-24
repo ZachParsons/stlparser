@@ -23,10 +23,10 @@ defmodule STLParser do
 
     # Lists all triangle structs.
     triangles_1l = 
-      split_string(bitstring)
+      split_by_line(bitstring)
       |> take_triangle_data()
-      |> chunk_list()
-      |> get_vertices()
+      |> chunk_lines_by_triangle()
+      |> get_triangle_vertices()
     
     # Calculates from the list of triangle structs.
     t_count = get_triangles_count(triangles_1l)
@@ -37,7 +37,7 @@ defmodule STLParser do
     display_report(t_count, t_area, vol_box)
   end
 
-  @spec display_report(integer(), float(), list()) :: String.t()
+  @spec display_report(integer(), float(), list()) :: binary()
   def display_report(count, area, vol_box) do
     [[lx, ly, lz], [hx, hy, hz]] = vol_box
 
