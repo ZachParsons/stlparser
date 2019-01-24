@@ -3,17 +3,20 @@ defmodule STLParser.Triangle do
   Documentation for STLParser.Triangle
   """
   alias STLParser.Triangle
-
+  
   defstruct [:vertex_a, :vertex_b, :vertex_c]
-
+  
+  @stl_keys ["facet", "outer loop", "vertex", "endloop", "endfacet"]
+  
   @spec split_string(String.t()) :: list()
   def split_string(s), do: String.split(s, ~r/(\r\n|\r|\n)/)
 
 
-  @spec trim_list(list()) :: list()
-  def trim_list(list) do
-    # filter out lines without triangles data.
-    Enum.slice(list, 1..-3)
+  @spec take_triangle_data(list()) :: list()
+  def take_triangle_data(list) do
+    Enum.filter(list, fn(line_s)-> 
+      String.contains?(line_s, @stl_keys)
+    end)
   end
 
   @spec chunk_list(list()) :: list()

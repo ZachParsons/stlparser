@@ -50,8 +50,8 @@ defmodule STLParserTest do
     assert split_string(s) == ["a ", " b ", " c"]
   end
 
-  test "trim_list/1" do 
-    assert trim_list([:a, :b, :c, :d]) == [:b]
+  test "take_triangle_data/1" do 
+    assert take_triangle_data(["solid Moon", "facet normal -0.130526 0 0.991445", ""]) == ["facet normal -0.130526 0 0.991445"]
   end
 
   test "chunk_list/1" do

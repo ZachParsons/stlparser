@@ -24,7 +24,7 @@ defmodule STLParser do
     # Lists all triangle structs.
     triangles_1l = 
       split_string(bitstring)
-      |> trim_list()
+      |> take_triangle_data()
       |> chunk_list()
       |> get_vertices()
     
