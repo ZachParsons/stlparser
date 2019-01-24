@@ -15,28 +15,37 @@
 defmodule STLParser do
   import STLParser.Triangle
 
-    def run(path) do    
+  # Function called in the CLI.
+  @spec run(binary()) :: binary()
+  def run(path) do
+    # Gets content of file.
     bitstring = read_stl(path)
 
-    triangle_map_1l = 
+    # Lists all triangle structs.
+    triangles_1l = 
       split_string(bitstring)
       |> trim_list()
       |> chunk_list()
       |> get_vertices()
-        
-    t_count = get_count(triangle_map_1l)
-    t_area = get_area(triangle_map_1l)
-    vol_box = get_volume(triangle_map_1l)
+    
+    # Calculates from the list of triangle structs.
+    t_count = get_triangles_count(triangles_1l)
+    t_area = get_triangles_area(triangles_1l)
+    vol_box = get_triangles_volume_box(triangles_1l)
 
-    display_analysis(t_count, t_area, vol_box)
+    # Prints calculations.
+    display_report(t_count, t_area, vol_box)
   end
 
-  def display_analysis(count, area, vol_box) do
+  @spec display_report(integer(), float(), list()) :: String.t()
+  def display_report(count, area, vol_box) do
     [[lx, ly, lz], [hx, hy, hz]] = vol_box
 
     IO.puts("Number of Triangles: #{count} \nSurface Area: #{area}\nBounding Box: {x: #{lx}, y: #{ly}, z: #{lz}}, {x: #{hx}, y: #{hy}, x: #{hz}}")
   end
 
+  # STL: Standard Triangle Language
+  @spec read_stl(binary()) :: binary()
   def read_stl(file) do
     {:ok, bitstring} = File.read(file)
     bitstring

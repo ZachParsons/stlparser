@@ -6,16 +6,22 @@ defmodule STLParser.Triangle do
 
   defstruct [:vertex_a, :vertex_b, :vertex_c]
 
+  @spec split_string(String.t()) :: list()
   def split_string(s), do: String.split(s, ~r/(\r\n|\r|\n)/)
 
+
+  @spec trim_list(list()) :: list()
   def trim_list(list) do
+    # filter out lines without triangles data.
     Enum.slice(list, 1..-3)
   end
 
+  @spec chunk_list(list()) :: list()
   def chunk_list(list) do
     Enum.chunk_every(list, 7)
   end 
 
+  @spec get_vertices(list()) :: list()
   def get_vertices(chunked_2l) do
     for l <- chunked_2l do
       %Triangle{
@@ -26,27 +32,31 @@ defmodule STLParser.Triangle do
     end
   end
 
+  @spec split_coords(binary()) :: list()
   def split_coords(string) do
     string
     |> String.trim_leading("    vertex ")
     |> String.split(" ")
-    |> Enum.map(fn(x)-> convert_to_float(x) end)
+    |> Enum.map(fn(x)-> convert_coords_to_float(x) end)
   end
 
-  def convert_to_float(string) do
+  @spec convert_coords_to_float(binary()) :: float()
+  def convert_coords_to_float(string) do
     cond do
       String.contains?(string, ".") -> String.to_float(string)
       true -> String.to_float(string <> ".0")
     end
   end
 
-  def get_count(map_list) do
-    Enum.count(map_list)
+  @spec get_triangles_count(list()) :: integer()
+  def get_triangles_count(structs_1l) do
+    Enum.count(structs_1l)
   end
 
-  def get_area(maps_1l) do
+  @spec get_triangles_area(list()) :: float()
+  def get_triangles_area(structs_1l) do
     t_areas = 
-      for m <- maps_1l do
+      for m <- structs_1l do
         [ax, ay, az] = m.vertex_a
         [bx, by, bz] = m.vertex_b
         [cx, cy, cz] = m.vertex_c
@@ -60,15 +70,17 @@ defmodule STLParser.Triangle do
     Enum.reduce(t_areas, 0, fn(a, acc)-> a + acc end)
   end
 
-  def get_volume(maps_1l) do
-    xvals_l = get_dimension_values(maps_1l, 0)
-    yvals_l = get_dimension_values(maps_1l, 1)
-    zvals_l = get_dimension_values(maps_1l, 2)
+  @spec get_triangles_volume_box(list()) :: list()
+  def get_triangles_volume_box(structs_1l) do
+    xvals_l = get_dimension_values(structs_1l, 0)
+    yvals_l = get_dimension_values(structs_1l, 1)
+    zvals_l = get_dimension_values(structs_1l, 2)
 
-    {h_x, l_x} = get_diff(xvals_l)
-    {h_y, l_y} = get_diff(yvals_l)
-    {h_z, l_z} = get_diff(zvals_l)
+    {h_x, l_x} = get_min_and_max(xvals_l)
+    {h_y, l_y} = get_min_and_max(yvals_l)
+    {h_z, l_z} = get_min_and_max(zvals_l)
 
+    # TODO: extract as get_volume()
     # x_d = h_x - l_x
     # y_d = h_y - l_y
     # z_d = h_z - l_z
@@ -77,6 +89,7 @@ defmodule STLParser.Triangle do
     [[l_x, l_y, l_z], [h_x, h_y, h_z]]
   end
 
+  @spec get_dimension_values(list(), integer()) :: list()
   def get_dimension_values(list, n) do
     for m <- list do
       a = m.vertex_a |> Enum.at(n)
@@ -88,7 +101,8 @@ defmodule STLParser.Triangle do
     |> List.flatten
   end
 
-  def get_diff(list) do
+  @spec get_min_and_max(list()) :: tuple()
+  def get_min_and_max(list) do
     {Enum.max(list), Enum.min(list)}
   end
 

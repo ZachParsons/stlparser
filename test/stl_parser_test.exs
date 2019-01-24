@@ -74,27 +74,27 @@ defmodule STLParserTest do
     assert split_coords(s) == floats_1l
   end
 
-  test "convert_to_float/1" do
+  test "convert_coords_to_float/1" do
     s1 = "2.94957"
     s2 = "0"
 
-    assert convert_to_float(s1) == 2.94957
-    assert convert_to_float(s2) == 0.0
+    assert convert_coords_to_float(s1) == 2.94957
+    assert convert_coords_to_float(s2) == 0.0
   end
 
-  test "get_count/1" do
+  test "get_triangles_count/1" do
     l = [%{}, %{}]
-    assert get_count(l) == 2
+    assert get_triangles_count(l) == 2
   end
 
-  test "get_area/1" do
+  test "get_triangles_area/1" do
     f = 0.06391543951501288
-    assert get_area(vertices_maps_1l()) == f
+    assert get_triangles_area(vertices_maps_1l()) == f
   end
 
-  test "get_volume/1" do
+  test "get_triangles_volume_box/1" do
     bb_floats_2l = [[0.128412, 0.2, 2.90018], [0.516641, 0.35, 3.0]]
-    assert get_volume(vertices_maps_1l()) == bb_floats_2l
+    assert get_triangles_volume_box(vertices_maps_1l()) == bb_floats_2l
   end 
 
   test "get_dimension_values/2"  do
@@ -103,10 +103,10 @@ defmodule STLParserTest do
     assert get_dimension_values(vertices_maps_1l(), 2) == floats_1l
   end
 
-  test "get_diff/1" do
+  test "get_min_and_max/1" do
     floats_1l = [2.94889, 2.90018, 3.0, 3.0, 2.90018, 2.94957]
     floats_1t = {3.0, 2.90018}
-    assert get_diff(floats_1l) == floats_1t
+    assert get_min_and_max(floats_1l) == floats_1t
   end
 
 end
